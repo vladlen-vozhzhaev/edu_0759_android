@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,22 +18,33 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<User> users = new ArrayList<>();
+    ArrayList<User> userList = new ArrayList<>();
     UserAdapter userAdapter;
+    Button addUserBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        for (int i = 0; i < 100; i++) {
+        Users users = new Users(MainActivity.this);
+        userList = users.getUserList();
+        /*for (int i = 0; i < 100; i++) {
             User user = new User();
             user.setUserName("Пользователь №"+i);
             user.setUserLastName("Фамилия №"+i);
             users.add(user);
-        }
-        userAdapter = new UserAdapter(users);
+        }*/
+        userAdapter = new UserAdapter(userList);
         recyclerView.setAdapter(userAdapter);
+        addUserBtn = findViewById(R.id.addUserBtn);
+        addUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private  class UserHolder extends RecyclerView.ViewHolder{
