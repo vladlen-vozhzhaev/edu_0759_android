@@ -27,16 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        Users users = new Users(MainActivity.this);
-        userList = users.getUserList();
-        /*for (int i = 0; i < 100; i++) {
-            User user = new User();
-            user.setUserName("Пользователь №"+i);
-            user.setUserLastName("Фамилия №"+i);
-            users.add(user);
-        }*/
-        userAdapter = new UserAdapter(userList);
-        recyclerView.setAdapter(userAdapter);
         addUserBtn = findViewById(R.id.addUserBtn);
         addUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +35,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    private void recyclerViewInit(){
+        Users users = new Users(MainActivity.this);
+        userList = users.getUserList();
+        userAdapter = new UserAdapter(userList);
+        recyclerView.setAdapter(userAdapter);
+        /*for (int i = 0; i < 100; i++) {
+            User user = new User();
+            user.setUserName("Пользователь №"+i);
+            user.setUserLastName("Фамилия №"+i);
+            users.add(user);
+        }*/
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        recyclerViewInit();
     }
 
     private  class UserHolder extends RecyclerView.ViewHolder{
